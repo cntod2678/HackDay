@@ -6,6 +6,7 @@ package company.co.kr.coupon.couponFeed;
 
 public class Coupon {
     String shop_id;
+    String img_src;
     int point;
 
     public String getShopId() {
@@ -22,5 +23,13 @@ public class Coupon {
 
     public void setPoint(int point) {
         this.point = point;
+    }
+
+    public String getImg_src() {
+        return img_src;
+    }
+
+    public void setImg_src(String img_src) {
+        this.img_src = img_src;
     }
 }

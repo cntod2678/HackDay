@@ -18,7 +18,7 @@
             android:orientation="vertical">
 
             <ImageView
-                android:id="@+id/imgAward_path"
+                android:id="@+id/imgCoupon"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="#123"/>

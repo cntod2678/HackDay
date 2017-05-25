@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -31,7 +32,7 @@ public class CouponFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     int TYPE_HEADER;
 
     private Context mContext;
-    private Pools.SimplePool<View> mMyViewPool;
+    Pools.SimplePool<View> mMyViewPool;
 
     private List<Coupon> coupon_list = new ArrayList<>();
 
@@ -64,34 +65,41 @@ public class CouponFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     public static class CouponViewHolder extends RecyclerView.ViewHolder {
         /* Initiate each data item */
         TextView txtCoupon_name;
+        ImageView imgCoupon;
         CardView cardView;
 
         public CouponViewHolder(View view) {
             super(view);
+            cardView = (CardView) view.findViewById(R.id.item_card);
+            imgCoupon = (ImageView)  view.findViewById(R.id.imgCoupon);
             txtCoupon_name = (TextView) view.findViewById(R.id.txtCoupon_name);
-            cardView = (CardView) itemView.findViewById(R.id.item_card);
+
         }
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
-        final Coupon coupon = coupon_list.get(position-1);
 
-        CouponViewHolder vh = (CouponViewHolder) viewHolder;
-        vh.txtCoupon_name.setText(coupon.getShopId());
+        if(coupon_list.size() > 0) {
+            final Coupon coupon = coupon_list.get(position);
 
-        vh.cardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(mContext, CouponDetailActivity.class);
-                Bundle couponBundle = new Bundle();
-                couponBundle.putString("shop_id", coupon.getShopId());
-                couponBundle.putInt("coupon_point", coupon.getPoint());
-                intent.putExtra("coupon_info", couponBundle);
+            CouponViewHolder vh = (CouponViewHolder) viewHolder;
+            vh.txtCoupon_name.setText(coupon.getShopId());
 
-                mContext.startActivity(intent);
-            }
-        });
+            vh.cardView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(mContext, CouponDetailActivity.class);
+                    Bundle couponBundle = new Bundle();
+                    couponBundle.putString("shop_id", coupon.getShopId());
+                    couponBundle.putInt("coupon_point", coupon.getPoint());
+                    intent.putExtra("coupon_info", couponBundle);
+
+                    mContext.startActivity(intent);
+                }
+            });
+
+        }
     }
 
     /* item count */

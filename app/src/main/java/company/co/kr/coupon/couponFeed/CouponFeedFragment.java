@@ -202,16 +202,17 @@ public class CouponFeedFragment extends Fragment implements View.OnTouchListener
     }
 
     private void onItemsLoadComplete() {
-        // Update the adapter and notify data set changed
+        // adapter 업데이트
         loadList(firstCoupon);
         recycler_adapter.notifyDataSetChanged();
 
-        // Stop refresh animation
+        //  refresh 애니메이션 끝
         mSwipeRefreshLayout.setRefreshing(false);
     }
 
     private void loadList(String json_result) {
-        /* 통신 후 받은 결과값을 객체로 변환 후 list에 뿌려주는 함수 */
+        // 통신 후 받은 결과값을 객체로 변환 후 list로 뿌려주는 함수
+
         Log.d("coupon", "loadList : " + json_result);
         Gson gson = new Gson();
         try {
@@ -229,7 +230,7 @@ public class CouponFeedFragment extends Fragment implements View.OnTouchListener
                     couponArrayList.add(coupon);
                 }
 
-                //recycler_adapter.notifyDataSetChange();
+                recycler_adapter.notifyDataSetChanged();
             }
 
         } catch(Exception e) {
@@ -273,8 +274,8 @@ public class CouponFeedFragment extends Fragment implements View.OnTouchListener
             try {
                 HashMap<String, String> params = new HashMap<>();
                 params.put("uid", args[0]);
-                params.put("scroll_num", args[1]);
-                params.put("scroll_num", args[2]);
+                params.put("start", args[1]);
+                params.put("end", args[2]);
 
                 JSONObject result = jsonParser.makeHttpRequest(
                         COUPON_URL, "GET", params);

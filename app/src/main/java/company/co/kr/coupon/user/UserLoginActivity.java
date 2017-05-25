@@ -58,7 +58,7 @@ public class UserLoginActivity extends AppCompatActivity {
                 try {
                     uid = editTextId.getText().toString();
 
-                    user_chk = new UserIdCheck().execute(uid).get();
+//                    user_chk = new UserIdCheck().execute(uid).get();
 
 //                    if(user_chk.toString().equals("1")) {
 //                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
@@ -73,7 +73,7 @@ public class UserLoginActivity extends AppCompatActivity {
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                     intent.putExtra("uid", uid);
                     startActivity(intent);
-
+                    finish();
 
                 } catch(Exception e) {
                     Log.e("login", "버튼 로그인 에러");
