@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Coupon</string>
+
+    <string name="coupon_point">포인트</string>
 </resources>

@@ -36,7 +36,9 @@ import company.co.kr.coupon.network.JSONParser;
 
 public class CouponFeedFragment extends Fragment implements View.OnTouchListener {
 
-    private static final String COUPON_URL = Application.URL + "/user/shop_list/";
+//    private final String COUPON_URL = Application.URL + "/user/shop_list/";
+    private final String COUPON_URL = Application.URL + "Test/showFeed.jsp";
+
 
     private LinearLayoutManager mLinearLayoutManager;
     private RecyclerView mRecyclerView;
@@ -45,9 +47,9 @@ public class CouponFeedFragment extends Fragment implements View.OnTouchListener
 
     private int start = 1;
     private int end = 5;
-    boolean loadingMore = false;
+    boolean loadingMore = true;
 
-    private List<Coupon> couponArrayList = new ArrayList<>();
+    private ArrayList<Coupon> couponArrayList = new ArrayList<>();
     private JSONObject coupon_json;
 
     String firstCoupon;
@@ -58,13 +60,16 @@ public class CouponFeedFragment extends Fragment implements View.OnTouchListener
         super.onCreate(savedInstanceState);
 
         Intent intent = getActivity().getIntent();
-        uid = intent.getStringExtra("uid");
+//        uid = intent.getStringExtra("uid");
+
+        uid = "ab";
 
         Toast.makeText(getContext(), uid, Toast.LENGTH_SHORT).show();
 
         try {
             coupon_json = new GetCouponList().execute(uid, Integer.toString(start), Integer.toString(end)).get();
             firstCoupon = coupon_json.getString("shop_list");
+            Log.i("first", firstCoupon);
         } catch(Exception e) {
             Log.i("coupon", "create, 첫 데이터 에러");
         }
@@ -185,8 +190,8 @@ public class CouponFeedFragment extends Fragment implements View.OnTouchListener
     // swipe 를 통해 view를 refresh 시킨다.
     private void refreshItems() {
         couponArrayList.clear();
-
         loadingMore = true;
+
         start = 1;
         end = 5;
 
@@ -254,7 +259,7 @@ public class CouponFeedFragment extends Fragment implements View.OnTouchListener
     }
 
     private class GetCouponList extends AsyncTask<String, String, JSONObject> {
-        /* myAward 부분을 서버에서 JSONObject 형식으로 가지고 옴 */
+        // myAward 부분을 서버에서 JSONObject 형식으로 가지고 옴
 
         JSONParser jsonParser = new JSONParser();
 
@@ -284,7 +289,7 @@ public class CouponFeedFragment extends Fragment implements View.OnTouchListener
                     Log.d("coupon", "doInBackground : " + result);
                     return result;
                 } else {
-                    Log.d("coupon", "doInBackground : result, doInBackground");
+                    Log.d("coupon", "doInBackground : result, null");
                 }
 
             } catch (Exception e) {

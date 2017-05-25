@@ -17,7 +17,6 @@ import android.widget.Toast;
 
 import org.json.JSONObject;
 
-import java.net.URLEncoder;
 import java.util.HashMap;
 
 import company.co.kr.coupon.Application;
@@ -58,7 +57,7 @@ public class UserLoginActivity extends AppCompatActivity {
                 try {
                     uid = editTextId.getText().toString();
 
-//                    user_chk = new UserIdCheck().execute(uid).get();
+                    user_chk = new UserIdCheck().execute(uid).get();
 
 //                    if(user_chk.toString().equals("1")) {
 //                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
@@ -73,7 +72,7 @@ public class UserLoginActivity extends AppCompatActivity {
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                     intent.putExtra("uid", uid);
                     startActivity(intent);
-                    finish();
+                    //finish();
 
                 } catch(Exception e) {
                     Log.e("login", "버튼 로그인 에러");
@@ -89,14 +88,10 @@ public class UserLoginActivity extends AppCompatActivity {
 
         JSONParser jsonParser = new JSONParser();
 
-        private ProgressDialog pDialog = new ProgressDialog(getApplicationContext());
 
         @Override
         protected void onPreExecute() {
-            pDialog.setMessage("잠시만 기다려 주세요.");
-            pDialog.setIndeterminate(false);
-            pDialog.setCancelable(true);
-            pDialog.show();
+
             super.onPreExecute();
         }
 
@@ -111,13 +106,14 @@ public class UserLoginActivity extends AppCompatActivity {
                         USER_URL, "GET", params);
 
                 if (chkLogin != null) {
-                    Log.d("login", "result : " + chkLogin);
+                    Log.d("login", "result : " + chkLogin.toString());
                     return chkLogin;
                 } else {
                     Log.d("login", "result : null, doInBackground");
                 }
 
             } catch (Exception e) {
+                Log.d("login", "로그인 연결 에러");
                 e.printStackTrace();
             }
 
@@ -126,9 +122,6 @@ public class UserLoginActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(JSONObject jObj) {
-            if (pDialog != null && pDialog.isShowing()) {
-                pDialog.dismiss();
-            }
             super.onPostExecute(jObj);
         }
     }
