@@ -5,8 +5,22 @@ package company.co.kr.coupon.couponFeed;
  */
 
 public class Coupon {
-    String shopId;
+    String shop_id;
     int point;
 
+    public String getShopId() {
+        return shop_id;
+    }
 
+    public void setShopId(String shopId) {
+        this.shop_id = shopId;
+    }
+
+    public int getPoint() {
+        return point;
+    }
+
+    public void setPoint(int point) {
+        this.point = point;
+    }
 }

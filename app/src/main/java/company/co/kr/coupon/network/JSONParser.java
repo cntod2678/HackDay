@@ -85,10 +85,9 @@ public class JSONParser {
         }
 
 
-        // ------------------------- GET ----------------------- //
         else if(method.equals("GET")){
             // request method is GET
-            Log.d("getCheck", "gc");
+
             if (sbParams.length() != 0) {
                 url += "?" + sbParams.toString();
             }

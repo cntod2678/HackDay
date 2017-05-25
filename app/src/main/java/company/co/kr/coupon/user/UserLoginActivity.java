@@ -13,24 +13,27 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import org.json.JSONObject;
 
+import java.net.URLEncoder;
 import java.util.HashMap;
 
+import company.co.kr.coupon.Application;
 import company.co.kr.coupon.MainActivity;
 import company.co.kr.coupon.R;
 import company.co.kr.coupon.network.JSONParser;
 
 public class UserLoginActivity extends AppCompatActivity {
 
-    private static final String USER_URL="";
+    private static final String USER_URL= Application.URL + "/user/point_check/";
 
     Button btnUser;
     EditText editTextId, editTextPassword;
 
     JSONObject user_chk;
-    String user_id, user_password;
+    String uid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,18 +56,27 @@ public class UserLoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 try {
-                    user_id = editTextId.getText().toString();
-                    user_password = editTextPassword.getText().toString();
+                    uid = editTextId.getText().toString();
 
-                    user_chk = new UserIdCheck().execute(user_id, user_password).get();
+                    user_chk = new UserIdCheck().execute(uid).get();
 
-                    if(user_chk.toString().equals("1")) {
-                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                        startActivity(intent);
-                    }
+//                    if(user_chk.toString().equals("1")) {
+//                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+//                        intent.putExtra("uid", uid);
+//                        startActivity(intent);
+//                    }
+//                    else  {
+//                        Toast.makeText(getApplicationContext(), "등록된 번호가 없습니다.", Toast.LENGTH_SHORT);
+//                    }
+
+                    //--------- 바로 연결 ------------
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    intent.putExtra("uid", uid);
+                    startActivity(intent);
+
 
                 } catch(Exception e) {
-                    Log.e("login", "로그인 에러");
+                    Log.e("login", "버튼 로그인 에러");
                     e.printStackTrace();
                 }
             }
@@ -72,26 +84,28 @@ public class UserLoginActivity extends AppCompatActivity {
     }
 
 
+    // uid를 이용해서 couponList를 가져옴
     private class UserIdCheck extends AsyncTask<String, String, JSONObject> {
-        // uid를 이용해서 couponList를 가져옴
 
         JSONParser jsonParser = new JSONParser();
 
         private ProgressDialog pDialog = new ProgressDialog(getApplicationContext());
 
+        @Override
         protected void onPreExecute() {
             pDialog.setMessage("잠시만 기다려 주세요.");
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(true);
             pDialog.show();
+            super.onPreExecute();
         }
 
+        @Override
         protected JSONObject doInBackground(String... args) {
 
             try {
                 HashMap<String, String> params = new HashMap<>();
-                params.put("user_id", args[0]);
-                params.put("user_password", args[1]);
+                params.put("uid", args[0]);
 
                 JSONObject chkLogin = jsonParser.makeHttpRequest(
                         USER_URL, "GET", params);
@@ -110,6 +124,7 @@ public class UserLoginActivity extends AppCompatActivity {
             return null;
         }
 
+        @Override
         protected void onPostExecute(JSONObject jObj) {
             if (pDialog != null && pDialog.isShowing()) {
                 pDialog.dismiss();
