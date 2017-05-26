@@ -28,14 +28,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
+                android:layout_alignParentBottom="true"
                 android:layout_marginStart="@dimen/item_margin_side"
-                android:layout_marginTop="@dimen/item_field_margin_top"
+                android:layout_marginBottom="20dp"
                 android:ellipsize="end"
                 android:textSize="28sp"
                 android:paddingLeft="3sp"
                 android:paddingRight="3sp"
                 android:textColor="#fff"
-                android:text="Coupon_name"/>
+                android:text="O2O Coupon Service"/>
 
         </RelativeLayout>
 

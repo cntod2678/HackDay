@@ -45,10 +45,9 @@ public class AdminActivity extends AppCompatActivity {
             return true;
         }
 
-        //백할 페이지가 없다면
-        if ((keyCode == KeyEvent.KEYCODE_BACK) && (webView.canGoBack() == false)) {
+        //back 할 페이지가 없다면
+        if ((keyCode == KeyEvent.KEYCODE_BACK) && (!webView.canGoBack())) {
 
-             // 뒤로 버튼을 눌렀을때 해야할 행동
             if (!mFlag) {
                 Toast.makeText(this, "'뒤로' 버튼을 한 번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT).show();
                 mFlag = true;

@@ -18,7 +18,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -29,6 +28,7 @@ import java.util.List;
 import company.co.kr.coupon.Application;
 import company.co.kr.coupon.R;
 import company.co.kr.coupon.network.JSONParser;
+
 
 /**
  * Created by Dongjin on 2017. 5. 25..
@@ -60,8 +60,6 @@ public class CouponFeedFragment extends Fragment implements View.OnTouchListener
 
         Intent intent = getActivity().getIntent();
         uid = intent.getStringExtra("uid");
-
-        Toast.makeText(getContext(), uid, Toast.LENGTH_SHORT).show();
 
         String strStart = Integer.toString(start);
         String strEnd = Integer.toString(end);
@@ -236,7 +234,10 @@ public class CouponFeedFragment extends Fragment implements View.OnTouchListener
                 loadingMore = false;
             }
             else {
-                for(int i = 0; i < coupon_jsonArray.length(); i++) {
+                int arrNum = couponArrayList.size();
+                int coupon_jsonArrayLength = coupon_jsonArray.length();
+
+                for(int i = 0; i < coupon_jsonArrayLength; i++) {
                     String couponInfo = coupon_jsonArray.getJSONObject(i).toString();
                     Coupon coupon = gson.fromJson(couponInfo, Coupon.class);
 
@@ -244,11 +245,12 @@ public class CouponFeedFragment extends Fragment implements View.OnTouchListener
                     couponArrayList.add(coupon);
                 }
 
-                recycler_adapter.notifyDataSetChanged();
+//                recycler_adapter.notifyDataSetChanged();
+                recycler_adapter.notifyItemRangeInserted(arrNum, coupon_jsonArrayLength);
             }
 
         } catch(Exception e) {
-            Log.d("coupon", "loadList : " + "로딩 에러");
+            Log.e("coupon", "loadList : " + "로딩 에러");
         }
     }
 

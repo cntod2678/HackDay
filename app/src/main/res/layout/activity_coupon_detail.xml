@@ -8,12 +8,13 @@
         android:id="@+id/imgCouponDetail"
         android:layout_width="match_parent"
         android:layout_height="@dimen/item_card_height"
-        android:layout_marginTop="20dp"/>
+        android:layout_marginTop="30dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:layout_marginTop="20dp"
         android:gravity="center">
 
         <TextView
@@ -21,6 +22,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/detail_shop_id"
+            android:textStyle="bold"
             android:text="shop_id"/>
 
     </LinearLayout>
@@ -35,6 +37,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
             android:textSize="@dimen/detail_point"
             android:text="@string/coupon_point"/>
 
