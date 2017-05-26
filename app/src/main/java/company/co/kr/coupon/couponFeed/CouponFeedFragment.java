@@ -36,47 +36,50 @@ import company.co.kr.coupon.network.JSONParser;
 
 public class CouponFeedFragment extends Fragment implements View.OnTouchListener {
 
-//    private final String COUPON_URL = Application.URL + "/user/shop_list/";
-    private final String COUPON_URL = Application.URL + "Test/showFeed.jsp";
+    private final String COUPON_URL = Application.URL + "/user/shop_list/";
+//    private final String COUPON_URL = Application.URL + "Test/showFeed.jsp";
 
 
     private LinearLayoutManager mLinearLayoutManager;
-    private RecyclerView mRecyclerView;
+    static private RecyclerView mRecyclerView;
     private CouponFeedAdapter recycler_adapter;
     private SwipeRefreshLayout mSwipeRefreshLayout;
 
-    private int start = 1;
+    private int start = 0;
     private int end = 5;
     boolean loadingMore = true;
 
-    private ArrayList<Coupon> couponArrayList = new ArrayList<>();
-    private JSONObject coupon_json;
+    protected ArrayList<Coupon> couponArrayList = new ArrayList<>();
+    private JSONObject coupon_json = new JSONObject();
 
     String firstCoupon;
-    String uid;
+    String uid = "mango";
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         Intent intent = getActivity().getIntent();
 //        uid = intent.getStringExtra("uid");
 
-        uid = "ab";
-
         Toast.makeText(getContext(), uid, Toast.LENGTH_SHORT).show();
 
+        String strStart = Integer.toString(start);
+        String strEnd = Integer.toString(end);
+
         try {
-            coupon_json = new GetCouponList().execute(uid, Integer.toString(start), Integer.toString(end)).get();
+            coupon_json = new GetCouponList().execute(uid, strStart, strEnd).get();
+            Log.d("coupon", "first" + coupon_json.toString());
+
             firstCoupon = coupon_json.getString("shop_list");
-            Log.i("first", firstCoupon);
+
         } catch(Exception e) {
             Log.i("coupon", "create, 첫 데이터 에러");
         }
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if(savedInstanceState == null) {
             View view = inflater.inflate(R.layout.fragment_coupon_list, container, false);
             initView(view);
@@ -162,13 +165,16 @@ public class CouponFeedFragment extends Fragment implements View.OnTouchListener
                 if (dy > 0) {
                     if (loadingMore) {
                         if ((visibleItemCount + firstVisibleItem) >= totalItemCount) {
-                            /* Paging */
+                            // Paging
                             try {
-                                //Toast.makeText(getContext(), "last", Toast.LENGTH_SHORT).show();
                                 start += 5;
                                 end += 5;
+
+                                String strStart = Integer.toString(start);
+                                String strEnd = Integer.toString(end);
+
                                 coupon_json = new GetCouponList().execute(uid,
-                                        Integer.toString(start), Integer.toString(end)).get();
+                                        strStart, strEnd).get();
 
                                 String response = coupon_json.getString("shop_list");
                                 Log.d("coupon", Integer.toString(start) + ": initial : " + response);
@@ -192,12 +198,14 @@ public class CouponFeedFragment extends Fragment implements View.OnTouchListener
         couponArrayList.clear();
         loadingMore = true;
 
-        start = 1;
+        start = 0;
         end = 5;
 
         try {
             coupon_json = new GetCouponList().execute(uid, Integer.toString(start), Integer.toString(end)).get();
+            Log.d("coupon", "first" + coupon_json.toString());
             firstCoupon = coupon_json.getString("shop_list");
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -222,9 +230,11 @@ public class CouponFeedFragment extends Fragment implements View.OnTouchListener
         Gson gson = new Gson();
         try {
             JSONArray coupon_jsonArray = new JSONArray(json_result);
+
             if(coupon_jsonArray.length() == 0) {
                 start -= 5;
                 end -= 5;
+                Log.d("coupon", "loadList : 비었다");
                 loadingMore = false;
             }
             else {
@@ -232,6 +242,7 @@ public class CouponFeedFragment extends Fragment implements View.OnTouchListener
                     String couponInfo = coupon_jsonArray.getJSONObject(i).toString();
                     Coupon coupon = gson.fromJson(couponInfo, Coupon.class);
 
+                    Log.d("coupon", "to String : " + coupon.toString());
                     couponArrayList.add(coupon);
                 }
 
@@ -243,8 +254,12 @@ public class CouponFeedFragment extends Fragment implements View.OnTouchListener
         }
     }
 
+    public static void moveScroll() {
+        mRecyclerView.smoothScrollToPosition(0);
+    }
 
-    // View.OnTouchEventListener
+
+    // View.OnTouchEventListener,
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         //todo CouponFeedFragment onTouch

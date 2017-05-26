@@ -3,7 +3,7 @@ package company.co.kr.coupon.couponFeed;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.util.Pools;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import company.co.kr.coupon.Application;
-import company.co.kr.coupon.CouponDetail.CouponDetailActivity;
+import company.co.kr.coupon.couponDetail.CouponDetailActivity;
 import company.co.kr.coupon.R;
 
 /**
@@ -27,21 +27,18 @@ import company.co.kr.coupon.R;
  */
 
 public class CouponFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private static final String IMAGE_URL = Application.URL + "/.jpg";
+    private static final String IMAGE_URL = Application.URL + "/";
 
     private Context mContext;
-    Pools.SimplePool<View> mMyViewPool;
-    private static final int MAX_POOL_SIZE = 10;
 
-    int TYPE_ITEM;
-    int TYPE_HEADER;
+    int TYPE_ITEM = 1;
+    int TYPE_HEADER = 2;
 
     private List<Coupon> coupon_list = new ArrayList<>();
 
     public CouponFeedAdapter(Context context, ArrayList<Coupon> cList) {
         mContext = context;
         coupon_list = cList;
-        mMyViewPool = new Pools.SynchronizedPool<>(MAX_POOL_SIZE);
     }
 
     @Override
@@ -55,44 +52,46 @@ public class CouponFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         /* Initiate each data item */
         TextView txtShop_id;
         ImageView imgCoupon;
-        CardView cardView;
+        CardView item_card;
 
         public CouponViewHolder(View view) {
             super(view);
-            cardView = (CardView) view.findViewById(R.id.item_card);
+            item_card = (CardView) view.findViewById(R.id.item_card);
             imgCoupon = (ImageView)  view.findViewById(R.id.imgCoupon);
             txtShop_id = (TextView) view.findViewById(R.id.txtShop_id);
-
         }
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
-
-        if(coupon_list.size() > 0) {
+        if(position != 0) {
             final Coupon coupon = coupon_list.get(position-1);
 
             CouponViewHolder vh = (CouponViewHolder) viewHolder;
             vh.txtShop_id.setText(coupon.getShopId());
+
+            Log.d("img", IMAGE_URL + coupon.getImage());
+
             Glide
                     .with(mContext)
-                    .load(IMAGE_URL + coupon.getImg_src())
+                    .load(IMAGE_URL + coupon.getImage())
                     .centerCrop()
                     .thumbnail(0.1f)
                     .into(vh.imgCoupon);
 
             // 각각의 아이템을 클릭했을 시 Detail로 넘어간다
-            vh.cardView.setOnClickListener(new View.OnClickListener() {
+            vh.item_card.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(mContext, CouponDetailActivity.class);
 
                     Bundle couponBundle = new Bundle();
-                    couponBundle.putString("shop_id", coupon.getShopId());
-                    couponBundle.putInt("coupon_point", coupon.getPoint());
-                    couponBundle.putString("coupon_img", coupon.getImg_src());
-                    intent.putExtra("coupon_info", couponBundle);
 
+                    couponBundle.putString("shop_id", coupon.getShopId());
+                    couponBundle.putInt("point", coupon.getPoint());
+                    couponBundle.putString("image", coupon.getImage());
+
+                    intent.putExtra("coupon_info", couponBundle);
                     mContext.startActivity(intent);
                 }
             });
@@ -116,6 +115,4 @@ public class CouponFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
         return TYPE_ITEM;
     }
-
-
 }

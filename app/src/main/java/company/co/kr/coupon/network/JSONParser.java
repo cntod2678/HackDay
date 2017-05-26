@@ -18,13 +18,14 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.HashMap;
 
+
 public class JSONParser {
     public final static String URL = "";
     String charset = "UTF-8";
     HttpURLConnection conn;
     DataOutputStream wr;
     StringBuilder result;
-    java.net.URL urlObj;
+    URL urlObj;
     JSONObject jObj = null;
     JSONArray jArr = null;
     StringBuilder sbParams;
@@ -85,9 +86,10 @@ public class JSONParser {
         }
 
 
+        // ------------------------- GET ----------------------- //
         else if(method.equals("GET")){
             // request method is GET
-
+            Log.d("getCheck", "gc");
             if (sbParams.length() != 0) {
                 url += "?" + sbParams.toString();
             }
@@ -115,8 +117,6 @@ public class JSONParser {
             }
 
         }
-
-
 
         try {
             //Receive the response from the server

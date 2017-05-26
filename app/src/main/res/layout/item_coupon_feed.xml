@@ -3,7 +3,7 @@
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="225dp">
+    android:layout_height="@dimen/item_card_height">
 
     <android.support.v7.widget.CardView
         android:id="@+id/item_card"
@@ -34,7 +34,6 @@
                 android:textSize="28sp"
                 android:paddingLeft="3sp"
                 android:paddingRight="3sp"
-                android:background="@color/black_alpha_40"
                 android:textColor="#fff"
                 android:text="Coupon_name"/>
 

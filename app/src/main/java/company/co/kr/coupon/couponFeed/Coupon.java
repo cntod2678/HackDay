@@ -6,7 +6,7 @@ package company.co.kr.coupon.couponFeed;
 
 public class Coupon {
     String shop_id;
-    String img_src;
+    String image;
     int point;
 
     public String getShopId() {
@@ -25,11 +25,20 @@ public class Coupon {
         this.point = point;
     }
 
-    public String getImg_src() {
-        return img_src;
+    public String getImage() {
+        return image;
     }
 
-    public void setImg_src(String img_src) {
-        this.img_src = img_src;
+    public void setImage(String img_src) {
+        this.image = img_src;
+    }
+
+    @Override
+    public String toString() {
+        return "Coupon{" +
+                "shop_id='" + shop_id + '\'' +
+                ", image='" + image + '\'' +
+                ", point=" + point +
+                '}';
     }
 }

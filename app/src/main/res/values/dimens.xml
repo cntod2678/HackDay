@@ -6,6 +6,7 @@
 
 
     <!-- Coupon items -->
+    <dimen name="item_card_height">200dp</dimen>
     <dimen name="item_field_margin_top">157.2dp</dimen>
     <dimen name="item_margin_side">16dp</dimen>
 

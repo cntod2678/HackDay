@@ -4,7 +4,6 @@ package company.co.kr.coupon.user;
  * Created by Dongjin on 2017. 5. 25..
  */
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;

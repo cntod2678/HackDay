@@ -14,5 +14,26 @@
         android:layout_height="match_parent"
         android:layout_weight="1">
     </FrameLayout>
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/main_bottom_tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:tabIndicatorHeight="0dp"
+        app:tabMode="fixed"
+        android:background="#00000000">
+
+        <android.support.design.widget.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:icon="@drawable/main_bottom_tabitem_home" />
+
+        <android.support.design.widget.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:icon="@drawable/main_bottom_tabitem_make"/>
+
+    </android.support.design.widget.TabLayout>
+
 </LinearLayout>
 
