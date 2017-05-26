@@ -24,7 +24,8 @@
 
         <activity android:name=".AdminActivity"/>
 
-        <activity android:name=".couponDetail.CouponDetailActivity" />
+        <activity android:name=".couponDetail.CouponDetailActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity android:name=".addCoupon.AddCouponActivity"
             android:theme="@style/AppTheme.NoActionBar" />

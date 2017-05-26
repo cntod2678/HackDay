@@ -16,7 +16,7 @@ import company.co.kr.coupon.R;
 import company.co.kr.coupon.couponFeed.Coupon;
 
 public class CouponDetailActivity extends AppCompatActivity {
-    private final String IMAGE_URL = Application.URL + "/";
+    private static final String IMAGE_URL = Application.URL + "/";
 
     ImageView imgCouponDetail;
     TextView txtShop_id, txtCoupon_point;
@@ -44,14 +44,16 @@ public class CouponDetailActivity extends AppCompatActivity {
     }
 
     private void setView() {
-        Glide
-                .with(this)
-                .load(IMAGE_URL)
-                .thumbnail(0.1f)
-                .into(imgCouponDetail);
 
         txtShop_id.setText(coupon.getShopId());
-        txtCoupon_point.setText(coupon.getPoint());
+        txtCoupon_point.setText(Integer.toString(coupon.getPoint()));
+
+        Glide
+                .with(this)
+                .load(IMAGE_URL+coupon.getImage())
+                .centerCrop()
+                .thumbnail(0.1f)
+                .into(imgCouponDetail);
     }
 
     private void setCoupon(Bundle bundle) {
