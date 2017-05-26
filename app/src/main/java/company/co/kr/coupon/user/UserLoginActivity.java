@@ -18,6 +18,7 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 
+import company.co.kr.coupon.AdminActivity;
 import company.co.kr.coupon.Application;
 import company.co.kr.coupon.MainActivity;
 import company.co.kr.coupon.R;
@@ -25,13 +26,14 @@ import company.co.kr.coupon.network.JSONParser;
 
 public class UserLoginActivity extends AppCompatActivity {
 
-    private static final String USER_URL= Application.URL + "/user/point_check/";
+    private static final String USER_URL= Application.URL + "/user/user_check/";
 
     Button btnUser;
-    EditText editTextId, editTextPassword;
+    EditText editTextId;
 
-    JSONObject user_chk;
+    JSONObject user_result;
     String uid;
+    String user_type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,11 +44,9 @@ public class UserLoginActivity extends AppCompatActivity {
         setEvent();
     }
 
-
     private void initView() {
         btnUser = (Button) findViewById(R.id.btnLogin);
         editTextId = (EditText) findViewById(R.id.editTextId);
-        editTextPassword = (EditText) findViewById(R.id.editTextPassword);
     }
 
     private void setEvent() {
@@ -56,25 +56,29 @@ public class UserLoginActivity extends AppCompatActivity {
                 try {
                     uid = editTextId.getText().toString();
 
-                    user_chk = new UserIdCheck().execute(uid).get();
+                    user_result = new UserIdCheck().execute(uid).get();
+                    user_type = user_result.getString("user_type");
 
-//                    if(user_chk.toString().equals("1")) {
-//                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-//                        intent.putExtra("uid", uid);
-//                        startActivity(intent);
-//                    }
-//                    else  {
-//                        Toast.makeText(getApplicationContext(), "등록된 번호가 없습니다.", Toast.LENGTH_SHORT);
-//                    }
-
-                    //--------- 바로 연결 ------------
-                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                    intent.putExtra("uid", uid);
-                    startActivity(intent);
-                    //finish();
+                    if(user_type.equals("client")) {
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        intent.putExtra("uid", uid);
+                        startActivity(intent);
+                        finish();
+                    } else if(user_type.equals("owner")) {
+                        Intent intent = new Intent(getApplicationContext(), AdminActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                    else if(user_result.getString("error").equals("error"))
+                    {
+                        Toast.makeText(getApplicationContext(), "등록된 번호가 없습니다.", Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                        throw new RuntimeException("로그인 연결 안됨");
 
                 } catch(Exception e) {
                     Log.e("login", "버튼 로그인 에러");
+                    Toast.makeText(getApplicationContext(), "연결을 확인하세요", Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
                 }
             }
@@ -87,10 +91,8 @@ public class UserLoginActivity extends AppCompatActivity {
 
         JSONParser jsonParser = new JSONParser();
 
-
         @Override
         protected void onPreExecute() {
-
             super.onPreExecute();
         }
 

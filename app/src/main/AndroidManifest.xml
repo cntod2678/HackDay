@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:hardwareAccelerated="true">
-        <activity android:name=".MainActivity"
+        <activity android:name=".user.UserLoginActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,8 +21,11 @@
             </intent-filter>
         </activity>
 
-
-        <activity android:name=".AdminActivity"/>
+        <activity android:name=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        
+        <activity android:name=".AdminActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity android:name=".couponDetail.CouponDetailActivity"
             android:theme="@style/AppTheme.NoActionBar"/>

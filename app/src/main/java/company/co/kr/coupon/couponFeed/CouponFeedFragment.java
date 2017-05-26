@@ -37,7 +37,6 @@ import company.co.kr.coupon.network.JSONParser;
 public class CouponFeedFragment extends Fragment implements View.OnTouchListener {
 
     private final String COUPON_URL = Application.URL + "/user/shop_list/";
-//    private final String COUPON_URL = Application.URL + "Test/showFeed.jsp";
 
 
     private LinearLayoutManager mLinearLayoutManager;
@@ -49,7 +48,7 @@ public class CouponFeedFragment extends Fragment implements View.OnTouchListener
     private int end = 5;
     boolean loadingMore = true;
 
-    protected ArrayList<Coupon> couponArrayList = new ArrayList<>();
+    protected List<Coupon> couponArrayList = new ArrayList<>();
     private JSONObject coupon_json = new JSONObject();
 
     String firstCoupon;
@@ -60,7 +59,7 @@ public class CouponFeedFragment extends Fragment implements View.OnTouchListener
         super.onCreate(savedInstanceState);
 
         Intent intent = getActivity().getIntent();
-//        uid = intent.getStringExtra("uid");
+        uid = intent.getStringExtra("uid");
 
         Toast.makeText(getContext(), uid, Toast.LENGTH_SHORT).show();
 
@@ -121,7 +120,6 @@ public class CouponFeedFragment extends Fragment implements View.OnTouchListener
             }
 
         });
-
 
         // 스크롤 이벤트 : 페이징을 위해 필요하다
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -273,8 +271,9 @@ public class CouponFeedFragment extends Fragment implements View.OnTouchListener
         return false;
     }
 
+
+    // myAward 부분을 서버에서 JSONObject 형식으로 가지고 옴
     private class GetCouponList extends AsyncTask<String, String, JSONObject> {
-        // myAward 부분을 서버에서 JSONObject 형식으로 가지고 옴
 
         JSONParser jsonParser = new JSONParser();
 

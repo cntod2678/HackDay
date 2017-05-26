@@ -38,8 +38,6 @@ public class AdminActivity extends AppCompatActivity {
         webView.loadUrl(ADMIN_URL);
     }
 
-
-
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if ((keyCode == KeyEvent.KEYCODE_BACK) && webView.canGoBack()) {

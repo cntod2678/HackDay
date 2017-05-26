@@ -36,7 +36,7 @@ public class CouponFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     private List<Coupon> coupon_list = new ArrayList<>();
 
-    public CouponFeedAdapter(Context context, ArrayList<Coupon> cList) {
+    public CouponFeedAdapter(Context context, List<Coupon> cList) {
         mContext = context;
         coupon_list = cList;
     }

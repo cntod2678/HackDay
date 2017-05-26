@@ -1,16 +1,22 @@
 package company.co.kr.coupon;
 
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.KeyEvent;
+import android.widget.Toast;
 
 import company.co.kr.coupon.addCoupon.AddCouponActivity;
 import company.co.kr.coupon.couponFeed.CouponFeedFragment;
 
 public class MainActivity extends AppCompatActivity {
+
+    private boolean mFlag = false;
 
     private TabLayout main_bottom_tabLayout;
     CouponFeedFragment mCouponFeedFragment = new CouponFeedFragment();
@@ -57,12 +63,54 @@ public class MainActivity extends AppCompatActivity {
                     CouponFeedFragment.moveScroll();
                 }
                 else if(tab.getPosition() == 1) {
-
+                    // 두번 째 탭 클릭시 쿠폰 추가 화면 이동
                     Intent intent = new Intent(getApplicationContext(), AddCouponActivity.class);
                     startActivity(intent);
                 }
             }
         });
     }
+
+
+    /* 액티비티 종료시 더블 더블터치 필요 */
+    @Override
+    public boolean onKeyDown ( int KeyCode, KeyEvent event )
+    {
+        if ( event.getAction() == KeyEvent.ACTION_DOWN )
+        {
+            int depth = getSupportFragmentManager().getBackStackEntryCount();
+            if( KeyCode == KeyEvent.KEYCODE_BACK && depth == 0)
+            {
+                /* 뒤로 버튼을 눌렀을때 해야할 행동 */
+                if(!mFlag)
+                {
+                    Toast.makeText(MainActivity.this, "'뒤로' 버튼을 한 번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT).show();
+                    mFlag = true;
+                    mKillHandler.sendEmptyMessageDelayed(0, 2000);
+                    return false;
+                }
+                else
+                {
+                    android.os.Process.killProcess(android.os.Process.myPid());
+                }
+            }
+
+        }
+
+        return super.onKeyDown(KeyCode, event);
+    }
+
+    /* 종료버튼이 한번 더 눌리지 않으면 mFlag 값 복원한다 */
+    Handler mKillHandler = new Handler()
+    {
+        @Override
+        public void handleMessage(Message msg)
+        {
+            if(msg.what == 0)
+            {
+                mFlag = false;
+            }
+        }
+    };
 
 }

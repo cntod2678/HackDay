@@ -1,45 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/black_alpha_40">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/title"
+            android:textSize="@dimen/login_title"
+            android:textStyle="bold"
+            android:textColor="#fff"/>
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:gravity="center">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:gravity="center">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="아이디"/>
+                android:text="전화번호 : "
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="23dp"/>
 
             <EditText
                 android:id="@+id/editTextId"
-                android:layout_width="300px"
-                android:layout_height="wrap_content" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="500px"
                 android:layout_height="wrap_content"
-                android:text="비밀번호"/>
-
-            <EditText
-                android:id="@+id/editTextPassword"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:hint="번호를 입력하세요"/>
 
         </LinearLayout>
 
@@ -48,6 +51,7 @@
             android:id="@+id/btnLogin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             android:text="Login"/>
 
     </LinearLayout>

@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Coupon</string>
 
+    <string name="title">o2o-coupon</string>
+
     <string name="coupon_point">포인트</string>
 </resources>
