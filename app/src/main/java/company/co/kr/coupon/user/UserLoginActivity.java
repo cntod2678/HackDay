@@ -7,6 +7,8 @@ package company.co.kr.coupon.user;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -22,6 +24,7 @@ import company.co.kr.coupon.AdminActivity;
 import company.co.kr.coupon.Application;
 import company.co.kr.coupon.MainActivity;
 import company.co.kr.coupon.R;
+import company.co.kr.coupon.network.AsyncHttpTask;
 import company.co.kr.coupon.network.JSONParser;
 
 public class UserLoginActivity extends AppCompatActivity {
@@ -57,6 +60,7 @@ public class UserLoginActivity extends AppCompatActivity {
                     uid = editTextId.getText().toString();
 
                     user_result = new UserIdCheck().execute(uid).get();
+
                     user_type = user_result.getString("user_type");
 
                     if(user_type.equals("client")) {
@@ -87,44 +91,77 @@ public class UserLoginActivity extends AppCompatActivity {
 
 
     // uid를 이용해서 couponList를 가져옴
-    private class UserIdCheck extends AsyncTask<String, String, JSONObject> {
+//    private class UserIdCheck extends AsyncTask<String, String, JSONObject> {
+//
+//        JSONParser jsonParser = new JSONParser();
+//
+//        @Override
+//        protected void onPreExecute() {
+//            super.onPreExecute();
+//        }
+//
+//        @Override
+//        protected JSONObject doInBackground(String... args) {
+//
+//            try {
+//                HashMap<String, String> params = new HashMap<>();
+//                params.put("uid", args[0]);
+//
+//                JSONObject chkLogin = jsonParser.makeHttpRequest(
+//                        USER_URL, "GET", params);
+//
+//                if (chkLogin != null) {
+//                    Log.d("login", "result : " + chkLogin.toString());
+//                    return chkLogin;
+//                } else {
+//                    Log.d("login", "result : null, doInBackground");
+//                }
+//
+//            } catch (Exception e) {
+//                Log.d("login", "로그인 연결 에러");
+//                e.printStackTrace();
+//            }
+//
+//            return null;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(JSONObject jObj) {
+//            super.onPostExecute(jObj);
+//        }
+//    }
 
+
+    public void checkUser(String uid) {
         JSONParser jsonParser = new JSONParser();
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
+        HashMap<String, String> params = new HashMap<>();
 
-        @Override
-        protected JSONObject doInBackground(String... args) {
+        JSONObject jObj = jsonParser.makeHttpRequest(USER_URL, "GET", params);
+        params.put("uid", uid);
 
-            try {
-                HashMap<String, String> params = new HashMap<>();
-                params.put("uid", args[0]);
+        new AsyncHttpTask(handler).execute(jObj.toString());
+    }
 
-                JSONObject chkLogin = jsonParser.makeHttpRequest(
-                        USER_URL, "GET", params);
 
-                if (chkLogin != null) {
-                    Log.d("login", "result : " + chkLogin.toString());
-                    return chkLogin;
-                } else {
-                    Log.d("login", "result : null, doInBackground");
-                }
+    private Handler handler = new Handler() {
 
-            } catch (Exception e) {
-                Log.d("login", "로그인 연결 에러");
-                e.printStackTrace();
+        public void handleMessage(Message msg) {
+
+            switch(msg.what) {
+                case -1:
+                    // 에러 처리
+
+                    break;
+                case 0:
+                    // 정상 응답 처리
+
+                    break;
+
             }
 
-            return null;
         }
 
-        @Override
-        protected void onPostExecute(JSONObject jObj) {
-            super.onPostExecute(jObj);
-        }
-    }
+    };
 
 }
